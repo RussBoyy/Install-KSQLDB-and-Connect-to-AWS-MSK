@@ -1,7 +1,11 @@
-Integrating KSQL with MSK using IAM Authentication
+**Integrating KSQL with MSK using IAM Authentication**
+
 When information is generated and processed in real-time, data analysts and data scientists require the ability to query information in a data stream.  
+
 As AWS Kinesis Data Analytics is a managed service it is recommended to use this service to meet this requirement.  Information on how to run real-time analysis using Kinesis can be round here.   There are organisations that want to use only Kafka or more specifically AWS Managed Streaming for Kafka (MSK) to manage their data streams.
-How do you query data in a data stream when using just MSK?
+
+**How do you query data in a data stream when using just MSK?**
+
 This post will detail how you can integrate KSQLDB with MSK to allow querying of events in-stream within a Kafka Topic.  KSQLDB provides an interactive framework for performing stream processing activities such as data aggregation, filtering, joining, sessionization, windowing, and more.
 
 KSQLDB is an open source project that is licensed under the Confluent Community License therefore its important to note that KSQLDB is not supported or licensed by AWS.  AWS MSK does not ship with KSQLDB but you can install a version of KSQLDB on an Amazon EC2 instance to query data in your MSK cluster.  KSQLDB can also be installed using containers but this method will not be covered in this upload.  When installing KSQLDB on EC2 your company will be responsible for supporting and maintaining the KSQLDB instance.  
