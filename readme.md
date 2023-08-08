@@ -10,7 +10,7 @@ This post will detail how you can integrate KSQLDB with MSK to allow querying of
 
 KSQLDB is an open source project that is licensed under the Confluent Community License therefore its important to note that KSQLDB is not supported or licensed by AWS.  AWS MSK does not ship with KSQLDB but you can install a version of KSQLDB on an Amazon EC2 instance to query data in your MSK cluster.  KSQLDB can also be installed using containers but this method will not be covered in this upload.  When installing KSQLDB on EC2 your company will be responsible for supporting and maintaining the KSQLDB instance.  
 
-AWS does not publish which versions of MSK supports KSQLDB but your company will have 
+AWS does not publish which versions of MSK supports KSQLDB.
 
 In this example, we will provision a Kafka cluster using AWS MSK, create a Kafka topic, and install and configure KSQLDB to query the Kafka topic that has been created in this workshop.  
 
