@@ -81,11 +81,11 @@ This will download the IAM authentication jar to allow KSQLDB to authenticate us
 
 Switch over to MSK and copy the cluster’s client details locally.  The following image illustrates where you can find the information; 
 
-![ksqldb-clientinformation.png](./images/ksqldb-clientinformation.png)
+![ksqldb-clientinformation.png](./Images/ksqldb-clientinformation.png)
 
 Copy the endpoint information and save it locally;
 
-![ksqldb-endpoints.png](./images/ksqldb-endpoints.png)
+![ksqldb-endpoints.png](./Images/ksqldb-endpoints.png)
 
 Run through these steps;
 
