@@ -17,7 +17,7 @@ In this example, we will provision a Kafka cluster using AWS MSK, create a Kafka
 The below visual illustrates the architecture and how the solution is designed.   Although not illustrated here, both the Kafka client and KSQLDB will run on the same EC2 instance.
 
 
-![HighlevelArch](./images/HighlevelArch.png)
+![HighlevelArch](./Images/HighlevelArch.png)
 
 In this tutorial we will create the following resources;
 
@@ -53,9 +53,9 @@ Next create an Amazon EC2 instance using the following settings, leaving all oth
 Once the MSK cluster has provisioned and the EC2 has launched, connect to the EC2 Instance and complete the steps below. You can connect to your EC2 instance via SSH or within the console via Session Manager.
 
 Connect to your EC2 instance and assume sudo. “sudo su”
-Navigate to the home directory; <code>cd /home</code>
+Navigate to the home directory; ```cd /home```
 
-Create a directory for Kafka and KSQLDB; <code>mkdir kafka && cd kafka</code>
+Create a directory for Kafka and KSQLDB; ```mkdir kafka && cd kafka```
 
 Complete [Step 4: Create a topic](https://docs.aws.amazon.com/msk/latest/developerguide/create-topic.html) within this folder. Note: You will need to replace {YOUR MSK VERSION with the version of MSK deployed (eg. 2.8.1).
 
@@ -67,17 +67,17 @@ Connect to your EC2 instance as per step 4 above, and assume sudo. “sudo su”
 
 In this demo we store all files within the Kafka directory (where we downloaded and Kafka client in [Step 4](https://docs.aws.amazon.com/msk/latest/developerguide/create-topic.html))
 
-Navigate to the kafka directory; <code>cd /home/kafka</code>
+Navigate to the kafka directory; ```cd /home/kafka```
 
-Download the public key; <code>curl -sq http://ksqldb-packages.s3.amazonaws.com/archive/0.23/archive.key | gpg --import</code>
+Download the public key; ```curl -sq http://ksqldb-packages.s3.amazonaws.com/archive/0.23/archive.key | gpg --import```
 
-Download the archive and its signature;<code> curl http://ksqldb-packages.s3.amazonaws.com/archive/0.23/confluent-ksqldb-0.23.1.tar.gz --output confluent-ksqldb-0.23.1.tar.gz
-curl http://ksqldb-packages.s3.amazonaws.com/archive/0.23/confluent-ksqldb-0.23.1.tar.gz.asc --output confluent-ksqldb-0.23.1.tar.gz.asc</code>
+Download the archive and its signature;```curl http://ksqldb-packages.s3.amazonaws.com/archive/0.23/confluent-ksqldb-0.23.1.tar.gz --output confluent-ksqldb-0.23.1.tar.gz
+curl http://ksqldb-packages.s3.amazonaws.com/archive/0.23/confluent-ksqldb-0.23.1.tar.gz.asc --output confluent-ksqldb-0.23.1.tar.gz.asc```
 
-Extract the tarball; <code>tar -xf confluent-ksqldb-0.23.1.tar.gz</code>
+Extract the tarball; ```tar -xf confluent-ksqldb-0.23.1.tar.gz```
 
 Change folder; cd confluent-ksqldb-0.23.1/share/java/ksqldb 
-This will download the IAM authentication jar to allow KSQLDB to authenticate using AWS IAM when connecting to MSK; <code>wget https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.1/aws-msk-iam-auth-1.1.1-all.jar</code>
+This will download the IAM authentication jar to allow KSQLDB to authenticate using AWS IAM when connecting to MSK; ```wget https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.1/aws-msk-iam-auth-1.1.1-all.jar```
 
 Switch over to MSK and copy the cluster’s client details locally.  The following image illustrates where you can find the information; 
 
@@ -89,26 +89,26 @@ Copy the endpoint information and save it locally;
 
 Run through these steps;
 
-Next we will update the ksql-server.properties file to allow KSQLDB to authenticate using IAM.  KSQLDB by default doesn’t connect using IAM Authentication therefore we need to instruct it to do so.  This command will open and allow you to update the file; <code> nano /home/kafka/confluent-ksqldb-0.23.1/etc/ksqldb/ksql-server.properties</code>
+Next we will update the ksql-server.properties file to allow KSQLDB to authenticate using IAM.  KSQLDB by default doesn’t connect using IAM Authentication therefore we need to instruct it to do so.  This command will open and allow you to update the file; ```nano /home/kafka/confluent-ksqldb-0.23.1/etc/ksqldb/ksql-server.properties```
 
-Update bootstrap.servers and add the additional lines below (we use all three brokers to ensure there isn’t a single point of failure) = <code> b-2.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098,b-3.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098,b-1.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098
+Update bootstrap.servers and add the additional lines below (we use all three brokers to ensure there isn’t a single point of failure) = ```b-2.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098,b-3.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098,b-1.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098
 
 security.protocol=SASL_SSL
 sasl.mechanism=AWS_MSK_IAM
 sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
-sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler </code>
+sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler```
 
 
-![ksqldb-iam.png](./images/ksqldb-iam.png)
+![ksqldb-iam.png](./Images/ksqldb-iam.png)
 
-Run this command to start the KSQL Server;<code>
-/home/kafka/confluent-ksqldb-0.23.1/bin/ksql-server-start /home/kafka/confluent-ksqldb-0.23.1/etc/ksqldb/ksql-server.properties</code>
+Run this command to start the KSQL Server;```
+/home/kafka/confluent-ksqldb-0.23.1/bin/ksql-server-start /home/kafka/confluent-ksqldb-0.23.1/etc/ksqldb/ksql-server.properties```
 
 Connect to the Amazon EC2 instance in a new window (either SSH or Session Manager) and 
-run the following command to start the KSQL Server; <code> sudo /home/kafka/confluent-ksqldb-0.23.1/bin/ksql http://0.0.0.0:8088 </code>
+run the following command to start the KSQL Server; ``` sudo /home/kafka/confluent-ksqldb-0.23.1/bin/ksql http://0.0.0.0:8088 ```
 
-By executing Run <code>SHOW TOPICS</code>; Kafka will return the Topic that was created early in the tutorial.  If everything has gone as planned you should see a screen the same as below;
+By executing Run ```SHOW TOPICS```; Kafka will return the Topic that was created early in the tutorial.  If everything has gone as planned you should see a screen the same as below;
 
-![ksqldb-complete.png](./images/ksqldb-complete.png)
+![ksqldb-complete.png](./Images/ksqldb-complete.png)
 
 Congratulations, you have successfully connected KSQLDB to MSK. For more information on KSQLDB see [here](https://ksqldb.io/).
