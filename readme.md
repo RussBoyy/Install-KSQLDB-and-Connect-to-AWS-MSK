@@ -91,12 +91,13 @@ Run through these steps;
 
 Next we will update the ksql-server.properties file to allow KSQLDB to authenticate using IAM.  KSQLDB by default doesn’t connect using IAM Authentication therefore we need to instruct it to do so.  This command will open and allow you to update the file; ```nano /home/kafka/confluent-ksqldb-0.23.1/etc/ksqldb/ksql-server.properties```
 
-Update bootstrap.servers and add the additional lines below (we use all three brokers to ensure there isn’t a single point of failure) = ```b-2.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098,b-3.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098,b-1.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098
+Update bootstrap.servers and add the additional lines below (we use all three brokers to ensure there isn’t a single point of failure) = ```b-2.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098,b-3.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098,b-1.ksqldbdemo.XXX.kafka.us-east-1.amazonaws.com:9098```
 
-security.protocol=SASL_SSL
+<code>security.protocol=SASL_SSL
 sasl.mechanism=AWS_MSK_IAM
 sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
-sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler```
+sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
+</code>
 
 
 ![ksqldb-iam.png](./Images/ksqldb-iam.png)
