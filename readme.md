@@ -1,4 +1,4 @@
-**Integrating KSQL with MSK using IAM Authentication**
+<h2> Integrating KSQL with MSK using IAM Authentication </h2> 
 
 When information is generated and processed in real-time, data analysts and data scientists require the ability to query information in a data stream.  
 
